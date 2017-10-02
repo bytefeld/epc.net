@@ -12,7 +12,7 @@ namespace Bytefeld.Epc
     /// <summary>
     /// A SSCC-96 Tag Uri (Serial Shipping Container Code)
     /// </summary>
-    public class Sscc96 : EpcTag, ISscc
+    public class Sscc96Tag : EpcTag, ISscc
     {
         public const byte BinaryHeader = 0x31;
 
@@ -31,7 +31,7 @@ namespace Bytefeld.Epc
         /// <param name="partition">The partition.</param>
         /// <param name="companyPrefix">The company prefix.</param>
         /// <param name="extensionAndSerial">The extension and serial.</param>
-        public Sscc96(byte filter, byte partition, string companyPrefix, string extensionAndSerial)
+        public Sscc96Tag(byte filter, byte partition, string companyPrefix, string extensionAndSerial)
         {
             _filter = filter;
             _partition = partition;
@@ -40,7 +40,7 @@ namespace Bytefeld.Epc
             _serial = extensionAndSerial.Substring(1);
         }
 
-        public Sscc96(byte filter, byte partition, string companyPrefix, string extension, string serial)
+        public Sscc96Tag(byte filter, byte partition, string companyPrefix, string extension, string serial)
         {
             _filter = filter;
             _partition = partition;
@@ -50,21 +50,21 @@ namespace Bytefeld.Epc
         }
 
         /// <summary>
-        /// Creates a new <see cref="Sgtin96"/> from the specified uri
+        /// Creates a new <see cref="Sgtin96Tag"/> from the specified uri
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns>Sgtin96.</returns>
-        public static new Sscc96 FromUri(string uri)
+        public new static Sscc96Tag FromUri(string uri)
         {
             return FromUri(EpcUri.FromString(uri));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Sgtin96"/> from the specified uri
+        /// Creates a new <see cref="Sgtin96Tag"/> from the specified uri
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns>Sgtin96.</returns>
-        public static new Sscc96 FromUri(EpcUri uri)
+        public new static Sscc96Tag FromUri(EpcUri uri)
         {
             ValidateUri( uri, Scheme, 3);
 
@@ -101,10 +101,11 @@ namespace Bytefeld.Epc
                     throw new FormatException("CompanyPrefix has invalid length.");
             }
 
-            return new Sscc96(filter, partition, companyPrefix, extensionAndSerial);
+            return new Sscc96Tag(filter, partition, companyPrefix, extensionAndSerial);
         }
 
-        public static new Sscc96 FromBinary(string epcCode)
+       
+        public new static Sscc96Tag FromBinary(string epcCode)
         {
             Assert.LengthIs("EpcCode", epcCode, 24);
 
@@ -112,30 +113,30 @@ namespace Bytefeld.Epc
             return FromBinary(bits);
         }
 
-        public static Sscc96 FromBinary(BitArray rawBits)
+        public static Sscc96Tag FromBinary(BitArray rawBits)
         {
             uint header = EpcEncoder.GetUnsignedInt32(rawBits, 0, 8);
             if (header != BinaryHeader)
                 throw new FormatException(string.Format("Invalid EPC Header: 0x{0:X2} (expected 0x{1:X2)", header, BinaryHeader));
 
             string companyPrefix;
-            string extenstionAndSerial;
+            string extensionAndSerial;
             byte partition;
 
             byte filter = (Byte)EpcEncoder.GetUnsignedInt32(rawBits, 8, 3);
 
             EpcEncoder.ParsePartitionTable(rawBits, 11, PartitionTable, out partition, out companyPrefix, out extenstionAndSerial);
 
-            return new Sscc96(filter, partition, companyPrefix, extenstionAndSerial);
+            return new Sscc96Tag(filter, partition, companyPrefix, extensionAndSerial);
         }
 
         /// <summary>
-        /// Gets the corresponding <see cref="Sscc"/> pure ID.
+        /// Gets the corresponding <see cref="SsccId"/> pure ID.
         /// </summary>
         /// <returns>The EPC pure SGTIN id</returns>
-        public Sscc ToSscc()
+        public SsccId ToSsccId()
         {
-            return new Sscc(this.CompanyPrefix, this.ExtensionAndSerial);
+            return new SsccId(this.CompanyPrefix, this.ExtensionAndSerial);
         }
 
         public override EpcUri ToUri()

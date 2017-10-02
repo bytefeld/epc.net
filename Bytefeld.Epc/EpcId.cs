@@ -9,7 +9,7 @@ using System.Text;
 namespace Bytefeld.Epc
 {
     /// <summary>
-    /// An EPC "pure identity URI". Main API to work with EPC id URIs
+    /// An EPC "pure identity URI". Main API to work with EPC ID URIs
     /// </summary>
     public abstract class EpcId
     {
@@ -43,8 +43,8 @@ namespace Bytefeld.Epc
 
             switch( uri.Scheme)
             {
-                case Sgtin.Scheme:
-                    return Sgtin.FromUri(uri);
+                case SgtinId.Scheme:
+                    return SgtinId.FromUri(uri);
             }
 
             throw new FormatException("Invalid uri scheme.");

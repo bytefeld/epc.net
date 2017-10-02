@@ -18,7 +18,7 @@ namespace Bytefeld.Epc.Tests
         public void FromUriSucceeds()
         {
             string uri = "urn:epc:id:sgtin:311112347.0781321.1";
-            var id = Sgtin.FromUri(uri);
+            var id = SgtinId.FromUri(uri);
 
             Assert.AreEqual("311112347", id.CompanyPrefix, "CompanyPrefix");
             Assert.AreEqual("0781321", id.IndicatorAndItemReference, "IndicatorAndItemReference");
@@ -31,7 +31,7 @@ namespace Bytefeld.Epc.Tests
         public void FromUriMatchesToUri()
         {
             string uri = "urn:epc:id:sgtin:311112347.0781321.1";
-            var id = Sgtin.FromUri(uri);
+            var id = SgtinId.FromUri(uri);
 
             Assert.AreEqual(uri, id.ToString(), "uri != id.ToString()");
             Assert.AreEqual(uri, id.ToUri().ToString(), "uri != id.ToUri().ToString()");

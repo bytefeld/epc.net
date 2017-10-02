@@ -11,7 +11,7 @@ namespace Bytefeld.Epc
     /// <summary>
     /// A SGTIN Uri
     /// </summary>
-    public class Sgtin : EpcId, ISgtin
+    public class SgtinId : EpcId, ISgtin
     {
         private readonly string _companyPrefix;
         private readonly string _itemReference;
@@ -20,7 +20,7 @@ namespace Bytefeld.Epc
 
         public const string Scheme = "sgtin";
         
-        public Sgtin(string companyPrefix, string indicator, string itemReference, string serial)
+        public SgtinId(string companyPrefix, string indicator, string itemReference, string serial)
         {
             _companyPrefix = companyPrefix;
             _indicator = indicator;
@@ -29,27 +29,27 @@ namespace Bytefeld.Epc
         }
 
          /// <summary>
-        /// Create a new <see cref="Sgtin"/> from the specified uri
+        /// Create a new <see cref="SgtinId"/> from the specified uri
         /// </summary>
         /// <param name="epcIdUri">The epc id URI.</param>
-        /// <returns>the created <see cref="Sgtin"/>.</returns>
-        public static new Sgtin FromUri(string epcIdUri)
+        /// <returns>the created <see cref="SgtinId"/>.</returns>
+        public static new SgtinId FromUri(string epcIdUri)
         {
             EpcUri uri = EpcUri.FromString(epcIdUri);
             return FromUri(uri);
         }
 
         /// <summary>
-        /// Create a new <see cref="Sgtin"/> from the specified uri
+        /// Create a new <see cref="SgtinId"/> from the specified uri
         /// </summary>
         /// <param name="epcIdUri">The epc id URI.</param>
-        /// <returns>the created <see cref="Sgtin"/>.</returns>
-        public static new Sgtin FromUri(EpcUri uri)
+        /// <returns>the created <see cref="SgtinId"/>.</returns>
+        public static new SgtinId FromUri(EpcUri uri)
         {
             string indicator = uri.Parts[1].Substring(0,1);
             string itemRef = uri.Parts[1].Substring(1);
             
-            return new Sgtin(uri.Parts[0], indicator, itemRef, uri.Parts[2]);
+            return new SgtinId(uri.Parts[0], indicator, itemRef, uri.Parts[2]);
         }
 
         /// <summary>

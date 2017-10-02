@@ -12,14 +12,14 @@ namespace Bytefeld.Epc
     /// <summary>
     /// A SGTIN-198 Tag Uri
     /// </summary>
-    public class Sgtin198 : SgtinTag
+    public class Sgtin198Tag : SgtinTag
     {
         public const byte BinaryHeader = 0x36;
 
         public const string Scheme = "sgtin-198";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Sgtin96" /> class.
+        /// Initializes a new instance of the <see cref="Sgtin96Tag" /> class.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="partition">The partition.</param>
@@ -27,40 +27,40 @@ namespace Bytefeld.Epc
         /// <param name="indicator">The indicator.</param>
         /// <param name="itemReference">The item reference.</param>
         /// <param name="serial">The serial.</param>
-        public Sgtin198(byte filter, byte partition, string companyPrefix, string indicator, string itemReference, string serial)
+        public Sgtin198Tag(byte filter, byte partition, string companyPrefix, string indicator, string itemReference, string serial)
             : base(Scheme, filter, partition, companyPrefix, indicator, itemReference, serial )
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Sgtin96" /> class.
+        /// Initializes a new instance of the <see cref="Sgtin96Tag" /> class.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="partition">The partition.</param>
         /// <param name="companyPrefix">The company prefix.</param>
         /// <param name="indicatorAnItemReference">The indicator an item reference.</param>
         /// <param name="serial">The serial.</param>
-        public Sgtin198(byte filter, byte partition, string companyPrefix, string indicatorAnItemReference, string serial)
+        public Sgtin198Tag(byte filter, byte partition, string companyPrefix, string indicatorAnItemReference, string serial)
             : base(Scheme, filter, partition, companyPrefix, indicatorAnItemReference, serial)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="Sgtin96"/> from the specified uri
+        /// Creates a new <see cref="Sgtin96Tag"/> from the specified uri
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns>Sgtin96.</returns>
-        public static new Sgtin198 FromUri(string uri)
+        public static new Sgtin198Tag FromUri(string uri)
         {
             return FromUri(EpcUri.FromString(uri));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Sgtin96"/> from the specified uri
+        /// Creates a new <see cref="Sgtin96Tag"/> from the specified uri
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns>Sgtin96.</returns>
-        public static new Sgtin198 FromUri(EpcUri uri)
+        public static new Sgtin198Tag FromUri(EpcUri uri)
         {
             ValidateUri( uri, Scheme, 4);
 
@@ -98,20 +98,20 @@ namespace Bytefeld.Epc
                     throw new FormatException("CompanyPrefix has invalid length.");
             }
 
-            return new Sgtin198(filter, partition, companyPrefix, indicatorAnditemRef, serial);
+            return new Sgtin198Tag(filter, partition, companyPrefix, indicatorAnditemRef, serial);
         }
 
-        public static new Sgtin198 FromBinary(string epcText)
+        public static new Sgtin198Tag FromBinary(string epcText)
         {
             Assert.LengthIs("EpcCode", epcText, 52);
 
-            BitArray bits = EpcEncoder.ConvertToBitArray(epcText);
+            BitArray bits = EpcEncoder.BinaryStringToBitArray(epcText);
             return FromBinary(bits);
         }
 
-        public static Sgtin198 FromBinary(BitArray rawBits)
+        public static Sgtin198Tag FromBinary(BitArray rawBits)
         {
-            uint header = EpcEncoder.GetUnsignedInt32(rawBits, 0, 8);
+            uint header = EpcEncoder.DecodeUInt32(rawBits, 0, 8);
             if (header != BinaryHeader)
                 throw new FormatException(string.Format("Invalid EPC Header: 0x{0:X2} (expected 0x{1:X2)", header, BinaryHeader));
 
@@ -120,23 +120,24 @@ namespace Bytefeld.Epc
             string serial;
             byte partition;
 
-            byte filter = (Byte)EpcEncoder.GetUnsignedInt32(rawBits, 8, 3);
+            byte filter = (Byte)EpcEncoder.DecodeUInt32(rawBits, 8, 3);
 
-            EpcEncoder.ParsePartitionTable(rawBits, 11, PartitionTable, out partition, out companyPrefix, out indicatorAnditemRef);
-            serial = EpcEncoder.GetString(rawBits, 58, 140);
+            EpcEncoder.DecodePartition(rawBits, PartitionTable, 11, out partition, out companyPrefix, out indicatorAnditemRef);
+            serial = EpcEncoder.DecodeString(rawBits, 58, 140);
 
-            return new Sgtin198(filter, partition, companyPrefix, indicatorAnditemRef, serial);
+            return new Sgtin198Tag(filter, partition, companyPrefix, indicatorAnditemRef, serial);
         }
 
-
-
-        public override string ToBinary()
+        public override  BitArray ToBitArray()
         {
-            throw new NotImplementedException();
+            var bits = new BitArray(198);
+
+            bits.Encode(BinaryHeader, 0, 8);
+            bits.Encode(Filter, 8, 3);
+            bits.EncodePartition(PartitionTable, 11, Partition, CompanyPrefix, IndicatorAndItemReference);
+            bits.EncodeString(Serial, 58, 140);
+
+            return bits;
         }
-
-      
-
-  
     }
 }

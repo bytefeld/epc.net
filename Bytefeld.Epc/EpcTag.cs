@@ -2,6 +2,7 @@
 // Copyright (c) 2017, Norbert Wagner (nw@bytefeld.com)
 //
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -68,14 +69,14 @@ namespace Bytefeld.Epc
             Func<string, EpcTag> parser = null;
             switch (header)
             {
-                case Sgtin96.BinaryHeader:
-                    parser = Sgtin96.FromBinary;
+                case Sgtin96Tag.BinaryHeader:
+                    parser = Sgtin96Tag.FromBinary;
                     break;
-                case Sgtin198.BinaryHeader:
-                    parser = Sgtin198.FromBinary;
+                case Sgtin198Tag.BinaryHeader:
+                    parser = Sgtin198Tag.FromBinary;
                     break;
-                case Sscc96.BinaryHeader:
-                    parser = Sscc96.FromBinary;
+                case Sscc96Tag.BinaryHeader:
+                    parser = Sscc96Tag.FromBinary;
                     break;
                 default:
                     throw new FormatException(string.Format("Invalid binary header value: 0x{0:X2}", header));
@@ -123,12 +124,14 @@ namespace Bytefeld.Epc
             ValidateUri(uri);
             switch (uri.Scheme)
             {
-                case Sgtin96.Scheme:
-                    return Sgtin96.FromUri(uri);
-                case Sgtin198.Scheme:
-                    return Sgtin198.FromUri(uri);
+                case Sgtin96Tag.Scheme:
+                    return Sgtin96Tag.FromUri(uri);
+                case Sgtin198Tag.Scheme:
+                    return Sgtin198Tag.FromUri(uri);
+                case Sscc96Tag.Scheme:
+                    return Sscc96Tag.FromUri(uri);
                 default:
-                    throw new FormatException(string.Format("EPC tag uri scheme is invalid: {0}", uri.Scheme));
+                    throw new NotSupportedException(string.Format("EPC tag uri scheme is not supported: {0}", uri.Scheme));
             }
         }
 

@@ -17,7 +17,7 @@ namespace Bytefeld.Epc.Tests
         [Test]
         public void ConvertBinaryToTypedTag()
         {
-            var tag = EpcTag.FromBinary<Sgtin96>("302D28B329B0F6C000000001");
+            var tag = EpcTag.FromBinary<Sgtin96Tag>("302D28B329B0F6C000000001");
 
             Assert.NotNull(tag);
             Assert.AreEqual("urn:epc:tag:sgtin-96:1.311112347.0987.1", tag.ToString());

@@ -11,7 +11,7 @@ namespace Bytefeld.Epc
     /// <summary>
     /// Represents a EPC Serial Shipping Container Code (SSCC) pure ID
     /// </summary>
-    public class Sscc : EpcId, ISscc
+    public class SsccId : EpcId, ISscc
     {
         private readonly string _companyPrefix;
         private readonly string _extension;
@@ -20,12 +20,12 @@ namespace Bytefeld.Epc
         public const string Scheme = "sscc";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Sscc" /> class.
+        /// Initializes a new instance of the <see cref="SsccId" /> class.
         /// </summary>
         /// <param name="companyPrefix">The company prefix.</param>
         /// <param name="extension">The extension.</param>
         /// <param name="serial">The serial.</param>
-        public Sscc(string companyPrefix, string extension, string serial)
+        public SsccId(string companyPrefix, string extension, string serial)
         {
             _companyPrefix = companyPrefix;
             _extension = extension;
@@ -33,11 +33,11 @@ namespace Bytefeld.Epc
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Sscc" /> class.
+        /// Initializes a new instance of the <see cref="SsccId" /> class.
         /// </summary>
         /// <param name="companyPrefix">The company prefix.</param>
         /// <param name="extensionAndSerial">The extension and serial.</param>
-        public Sscc(string companyPrefix, string extensionAndSerial)
+        public SsccId(string companyPrefix, string extensionAndSerial)
         {
             _companyPrefix = companyPrefix;
             _extension = extensionAndSerial.Substring(0,1);

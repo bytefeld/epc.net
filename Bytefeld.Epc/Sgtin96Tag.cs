@@ -12,14 +12,14 @@ namespace Bytefeld.Epc
     /// <summary>
     /// A SGTIN-96 Tag Uri
     /// </summary>
-    public class Sgtin96 : SgtinTag
+    public class Sgtin96Tag : SgtinTag
     {
         public const byte BinaryHeader = 0x30;
 
         public const string Scheme = "sgtin-96";
       
         /// <summary>
-        /// Initializes a new instance of the <see cref="Sgtin96" /> class.
+        /// Initializes a new instance of the <see cref="Sgtin96Tag" /> class.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="partition">The partition.</param>
@@ -27,40 +27,40 @@ namespace Bytefeld.Epc
         /// <param name="indicator">The indicator.</param>
         /// <param name="itemReference">The item reference.</param>
         /// <param name="serial">The serial.</param>
-        public Sgtin96(byte filter, byte partition, string companyPrefix, string indicator, string itemReference, string serial)
+        public Sgtin96Tag(byte filter, byte partition, string companyPrefix, string indicator, string itemReference, string serial)
             : base(Scheme, filter, partition, companyPrefix, indicator, itemReference, serial)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Sgtin96" /> class.
+        /// Initializes a new instance of the <see cref="Sgtin96Tag" /> class.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="partition">The partition.</param>
         /// <param name="companyPrefix">The company prefix.</param>
         /// <param name="indicatorAnItemReference">The indicator an item reference.</param>
         /// <param name="serial">The serial.</param>
-        public Sgtin96(byte filter, byte partition, string companyPrefix, string indicatorAnItemReference, string serial)
+        public Sgtin96Tag(byte filter, byte partition, string companyPrefix, string indicatorAnItemReference, string serial)
             : base(Scheme, filter, partition, companyPrefix, indicatorAnItemReference, serial)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="Sgtin96"/> from the specified uri
+        /// Creates a new <see cref="Sgtin96Tag"/> from the specified uri
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns>Sgtin96.</returns>
-        public static new Sgtin96 FromUri(string uri)
+        public static new Sgtin96Tag FromUri(string uri)
         {
             return FromUri(EpcUri.FromString(uri));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Sgtin96"/> from the specified uri
+        /// Creates a new <see cref="Sgtin96Tag"/> from the specified uri
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns>Sgtin96.</returns>
-        public static new Sgtin96 FromUri(EpcUri uri)
+        public static new Sgtin96Tag FromUri(EpcUri uri)
         {
             ValidateUri( uri, Scheme, 4);
 
@@ -125,7 +125,7 @@ namespace Bytefeld.Epc
             EpcEncoder.ParsePartitionTable(rawBits, 11, PartitionTable, out partition, out companyPrefix, out indicatorAnditemRef);
             serial = EpcEncoder.GetUnsignedInt64(rawBits, 58, 38);
 
-            return new Sgtin96(filter, partition, companyPrefix, indicatorAnditemRef, serial.ToString());
+            return new Sgtin96Tag(filter, partition, companyPrefix, indicatorAnditemRef, serial.ToString());
         }
 
         public override string ToBinary()

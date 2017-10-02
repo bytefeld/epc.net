@@ -41,8 +41,14 @@ namespace Bytefeld.Epc
         /// </value>
         public EpcUriType Type { get { return _type; } }
 
+        /// <summary>
+        /// Gets the URI scheme
+        /// </summary>
         public string Scheme { get { return _scheme; } }
 
+        /// <summary>
+        /// Gets the scheme specific parts 
+        /// </summary>
         public string[] Parts { get { return _parts; } }
 
         /// <summary>
@@ -80,6 +86,10 @@ namespace Bytefeld.Epc
             return new EpcUri(type, scheme, parts);
         }
 
+        /// <summary>
+        /// Gets the URI string
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("{0}:{1}:{2}:{3}", EpcPrefix, _type.ToString().ToLower(), _scheme, string.Join(".", _parts));

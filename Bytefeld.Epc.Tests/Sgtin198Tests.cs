@@ -21,7 +21,7 @@ namespace Bytefeld.Epc.Tests
         public void ParseBinaryTextSucceeds(string tagString, int partition, string companyPrefix, string indicator, string itemReference, string serial )
         {
 
-            var tag = Sgtin198.FromBinary(tagString);
+            var tag = Sgtin198Tag.FromBinary(tagString);
 
             Assert.AreEqual(partition, tag.Partition, "Partition invalid.");
             Assert.AreEqual(companyPrefix, tag.CompanyPrefix, "CompanyPrefix invalid.");
@@ -35,7 +35,7 @@ namespace Bytefeld.Epc.Tests
         public void FromUriSucceeds()
         {
             string uri = "urn:epc:tag:sgtin-198:1.348338.0781321.12345678901234567890";
-            var tag = Sgtin198.FromUri(uri);
+            var tag = Sgtin198Tag.FromUri(uri);
 
             Assert.AreEqual(1, tag.Filter, "Filter");
             Assert.AreEqual("348338", tag.CompanyPrefix, "CompanyPrefix");
@@ -49,7 +49,7 @@ namespace Bytefeld.Epc.Tests
         public void FromUriMatchesToUri()
         {
             string uri = "urn:epc:tag:sgtin-198:1.348338.0781321.12345678901234567890";
-            var tag = Sgtin198.FromUri(uri);
+            var tag = Sgtin198Tag.FromUri(uri);
 
             Assert.AreEqual(uri, tag.ToString(), "uri != tag.ToString()");
             Assert.AreEqual(uri, tag.ToUri().ToString(), "uri != tag.ToUri().ToString()");
