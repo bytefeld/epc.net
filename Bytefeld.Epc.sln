@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4FA3276-8016-4DC3-8AA9-C4B8DCD910AC}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bytefeld.Epc", "D:\Projects\bytefeld\epc.net\Bytefeld.Epc\Bytefeld.Epc.csproj", "{573CCD81-D8AF-4AA6-971C-241C1A00BA46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bytefeld.Epc.Tests", "D:\Projects\bytefeld\epc.net\Bytefeld.Epc.Tests\Bytefeld.Epc.Tests.csproj", "{5547EB4F-74D5-4F79-9E65-6A5BAED4E5CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{573CCD81-D8AF-4AA6-971C-241C1A00BA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{573CCD81-D8AF-4AA6-971C-241C1A00BA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{573CCD81-D8AF-4AA6-971C-241C1A00BA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{573CCD81-D8AF-4AA6-971C-241C1A00BA46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5547EB4F-74D5-4F79-9E65-6A5BAED4E5CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5547EB4F-74D5-4F79-9E65-6A5BAED4E5CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5547EB4F-74D5-4F79-9E65-6A5BAED4E5CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5547EB4F-74D5-4F79-9E65-6A5BAED4E5CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DCD1B79F-E2B3-4FD1-AB5B-AD35893951E4}
+	EndGlobalSection
+EndGlobal
