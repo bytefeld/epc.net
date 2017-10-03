@@ -99,12 +99,12 @@ namespace Bytefeld.Epc
         public string ItemReference { get { return _itemReference; } }
 
         /// <summary>
-        /// Gets the corresponding <see cref="SgtinID"/> pure ID.
+        /// Gets the corresponding <see cref="SgtinId"/> pure ID.
         /// </summary>
         /// <returns>The EPC pure SGTIN id</returns>
-        public SgtinID ToSgtin()
+        public SgtinId ToSgtin()
         {
-            return new SgtinID(this.CompanyPrefix, this.Indicator, this.ItemReference, this.Serial);
+            return new SgtinId(this.CompanyPrefix, this.Indicator, this.ItemReference, this.Serial);
         }
 
 

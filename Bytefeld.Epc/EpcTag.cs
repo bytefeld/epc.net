@@ -142,10 +142,19 @@ namespace Bytefeld.Epc
         abstract public EpcUri ToUri();
 
         /// <summary>
+        /// Gets the <see cref="EpcTag"/>'s binary representation as bit array
+        /// </summary>
+        /// <returns></returns>
+        public abstract BitArray ToBitArray();
+
+        /// <summary>
         /// Gets the <see cref="EpcTag"/>'s binary text representation 
         /// </summary>
         /// <returns>System.String.</returns>
-        abstract public string ToBinary();
+        public string ToBinary()
+        {
+            return EpcEncoder.BitArrayToBinaryString(ToBitArray());
+        }
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance. Same as <c>ToUri().ToString()</c>

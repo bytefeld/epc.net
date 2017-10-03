@@ -25,7 +25,49 @@ namespace Bytefeld.Epc
         private readonly byte _partition;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Sgtin96" /> class.
+        /// Gets the partition.
+        /// </summary>
+        /// <value>
+        /// The partition.
+        /// </value>
+        public byte Partition { get { return _partition; } }
+
+        /// <summary>
+        /// Gets the filter.
+        /// </summary>
+        /// <value>
+        /// The filter.
+        /// </value>
+        public byte Filter { get { return _filter; } }
+
+        /// <summary>
+        /// Gets the company prefix.
+        /// </summary>
+        /// <value>
+        /// The company prefix.
+        /// </value>
+        public string CompanyPrefix { get { return _companyPrefix; } }
+
+        /// <summary>
+        /// Gets the serial.
+        /// </summary>
+        /// <value>
+        /// The serial.
+        /// </value>
+        public string Serial { get { return _serial; } }
+
+        /// <summary>
+        /// Gets the extension
+        /// </summary>
+        public string Extension { get { return _extension; } }
+
+        /// <summary>
+        /// Gets the combined extension and serial
+        /// </summary>
+        public string ExtensionAndSerial { get { return _extension + _serial; } }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Sgtin96Tag" /> class.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="partition">The partition.</param>
@@ -73,8 +115,73 @@ namespace Bytefeld.Epc
             string companyPrefix = parts[1];
             string extensionAndSerial = parts[2];
             
+            var partition = GetBestPartitionNumber(companyPrefix.Length);
+
+            return new Sscc96Tag(filter, partition, companyPrefix, extensionAndSerial);
+        }
+
+       
+        public new static Sscc96Tag FromBinary(string epcCode)
+        {
+            Assert.LengthIs("EpcCode", epcCode, 24);
+
+            BitArray bits = EpcEncoder.BinaryStringToBitArray(epcCode);
+            return FromBinary(bits);
+        }
+
+        public static Sscc96Tag FromBinary(BitArray rawBits)
+        {
+            uint header = rawBits.DecodeUInt32(0, 8);
+            if (header != BinaryHeader)
+                throw new FormatException(string.Format("Invalid EPC Header: 0x{0:X2} (expected 0x{1:X2)", header, BinaryHeader));
+
+            string companyPrefix;
+            string extensionAndSerial;
+            byte partition;
+
+            byte filter = rawBits.DecodeByte(8, 3);
+
+            rawBits.DecodePartition(PartitionTable, 11, out partition, out companyPrefix, out extensionAndSerial);
+
+            return new Sscc96Tag(filter, partition, companyPrefix, extensionAndSerial);
+        }
+
+        public override BitArray ToBitArray()
+        {
+            var bits = new BitArray(96);
+
+            bits.Encode(BinaryHeader, 0, 8);
+            bits.Encode(_filter, 8, 3);
+            bits.EncodePartition(PartitionTable, 11, _partition, _companyPrefix, ExtensionAndSerial);
+
+            return bits;
+        }
+
+        /// <summary>
+        /// Gets the corresponding <see cref="SsccId"/> pure ID.
+        /// </summary>
+        /// <returns>The EPC pure SGTIN id</returns>
+        public SsccId ToSsccId()
+        {
+            return new SsccId(this.CompanyPrefix, this.ExtensionAndSerial);
+        }
+
+        public override EpcUri ToUri()
+        {
+            return new EpcUri(EpcUriType.Tag, Scheme, Filter.ToString(), CompanyPrefix, ExtensionAndSerial);
+        }
+
+       
+
+        /// <summary>
+        /// Gets the best partition number for the specified company prefix length
+        /// </summary>
+        /// <param name="companyPrefixLength"></param>
+        /// <returns></returns>
+        private static byte GetBestPartitionNumber(int companyPrefixLength)
+        {
             byte partition = 0;
-            switch(companyPrefix.Length)
+            switch (companyPrefixLength)
             {
                 case 12:
                     partition = 0;
@@ -100,91 +207,8 @@ namespace Bytefeld.Epc
                 default:
                     throw new FormatException("CompanyPrefix has invalid length.");
             }
-
-            return new Sscc96Tag(filter, partition, companyPrefix, extensionAndSerial);
+            return partition;
         }
-
-       
-        public new static Sscc96Tag FromBinary(string epcCode)
-        {
-            Assert.LengthIs("EpcCode", epcCode, 24);
-
-            BitArray bits = EpcEncoder.ConvertToBitArray(epcCode);
-            return FromBinary(bits);
-        }
-
-        public static Sscc96Tag FromBinary(BitArray rawBits)
-        {
-            uint header = EpcEncoder.GetUnsignedInt32(rawBits, 0, 8);
-            if (header != BinaryHeader)
-                throw new FormatException(string.Format("Invalid EPC Header: 0x{0:X2} (expected 0x{1:X2)", header, BinaryHeader));
-
-            string companyPrefix;
-            string extensionAndSerial;
-            byte partition;
-
-            byte filter = (Byte)EpcEncoder.GetUnsignedInt32(rawBits, 8, 3);
-
-            EpcEncoder.ParsePartitionTable(rawBits, 11, PartitionTable, out partition, out companyPrefix, out extenstionAndSerial);
-
-            return new Sscc96Tag(filter, partition, companyPrefix, extensionAndSerial);
-        }
-
-        /// <summary>
-        /// Gets the corresponding <see cref="SsccId"/> pure ID.
-        /// </summary>
-        /// <returns>The EPC pure SGTIN id</returns>
-        public SsccId ToSsccId()
-        {
-            return new SsccId(this.CompanyPrefix, this.ExtensionAndSerial);
-        }
-
-        public override EpcUri ToUri()
-        {
-            return new EpcUri(EpcUriType.Tag, Scheme, Filter.ToString(), CompanyPrefix, ExtensionAndSerial);
-        }
-
-        public override string ToBinary()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the partition.
-        /// </summary>
-        /// <value>
-        /// The partition.
-        /// </value>
-        public byte Partition { get { return _partition; } }
-
-        /// <summary>
-        /// Gets the filter.
-        /// </summary>
-        /// <value>
-        /// The filter.
-        /// </value>
-        public byte Filter { get { return _filter; } }
-
-        /// <summary>
-        /// Gets the company prefix.
-        /// </summary>
-        /// <value>
-        /// The company prefix.
-        /// </value>
-        public string CompanyPrefix { get { return _companyPrefix; } }
-
-        /// <summary>
-        /// Gets the serial.
-        /// </summary>
-        /// <value>
-        /// The serial.
-        /// </value>
-        public string Serial { get { return _serial; } }
-
-        public string Extension { get { return _extension; } }
-
-        public string ExtensionAndSerial { get { return _extension + _serial; } }
-
 
         private static EpcEncoder.Partition[] PartitionTable = new EpcEncoder.Partition[] 
         {

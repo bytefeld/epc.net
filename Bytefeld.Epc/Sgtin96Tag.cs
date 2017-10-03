@@ -98,20 +98,20 @@ namespace Bytefeld.Epc
                     throw new FormatException("CompanyPrefix has invalid length.");
             }
 
-            return new Sgtin96(filter, partition, companyPrefix, indicatorAnditemRef, serial);
+            return new Sgtin96Tag(filter, partition, companyPrefix, indicatorAnditemRef, serial);
         }
 
-        public static new Sgtin96 FromBinary(string epcText)
+        public static new Sgtin96Tag FromBinary(string epcText)
         {
             Assert.LengthIs("EpcCode", epcText, 24);
 
-            BitArray bits = EpcEncoder.ConvertToBitArray(epcText);
+            BitArray bits = EpcEncoder.BinaryStringToBitArray(epcText);
             return FromBinary(bits);
         }
 
-        public static Sgtin96 FromBinary(BitArray rawBits)
+        public static Sgtin96Tag FromBinary(BitArray rawBits)
         {
-            uint header = EpcEncoder.GetUnsignedInt32(rawBits, 0, 8);
+            uint header = EpcEncoder.DecodeUInt32(rawBits, 0, 8);
             if (header != BinaryHeader)
                 throw new FormatException(string.Format("Invalid EPC Header: 0x{0:X2} (expected 0x{1:X2)", header, BinaryHeader));
 
@@ -120,19 +120,26 @@ namespace Bytefeld.Epc
             ulong serial;
             byte partition;
 
-            byte filter = (Byte)EpcEncoder.GetUnsignedInt32(rawBits, 8, 3);
+            byte filter = (Byte)EpcEncoder.DecodeUInt32(rawBits, 8, 3);
 
-            EpcEncoder.ParsePartitionTable(rawBits, 11, PartitionTable, out partition, out companyPrefix, out indicatorAnditemRef);
-            serial = EpcEncoder.GetUnsignedInt64(rawBits, 58, 38);
+            EpcEncoder.DecodePartition(rawBits, PartitionTable, 11, out partition, out companyPrefix, out indicatorAnditemRef);
+            serial = EpcEncoder.ReadUInt64(rawBits, 58, 38);
 
             return new Sgtin96Tag(filter, partition, companyPrefix, indicatorAnditemRef, serial.ToString());
         }
 
-        public override string ToBinary()
+        public override BitArray ToBitArray()
         {
-            throw new NotImplementedException();
+            var bits = new BitArray(96);
+
+            bits.Encode(BinaryHeader, 0, 8);
+            bits.Encode(Filter, 8, 3);
+            bits.EncodePartition(PartitionTable, 11, Partition, CompanyPrefix, IndicatorAndItemReference);
+            bits.Encode(UInt64.Parse(Serial), 58, 38);
+
+            return bits;
         }
 
-  
+
     }
 }

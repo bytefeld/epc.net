@@ -34,7 +34,7 @@ namespace Bytefeld.Epc.Tests
         }
 
         [Test]
-        [TestCase("302D28B329B0F6C000000001", "epc:tag:sgtin-96:1.311112347.0987.1")]
+        [TestCase("302D28B329B0F6C000000001", "urn:epc:tag:sgtin-96:1.311112347.0987.1")]
         [TestCase("3639542C82FB0258B266D1AB66EE1CB062C99B46AD9BB872C000", "urn:epc:tag:sgtin-198:1.348338.0781321.12345678901234567890")]
         [TestCase("3159542C8000000001000000", "urn:epc:tag:sscc-96:2.348338.00000000001")]
         public void ConvertUrisToBinaries(string expectedTag, string uri)
