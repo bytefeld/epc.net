@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bytefeld.Epc", "D:\Projects\bytefeld\epc.net\Bytefeld.Epc\Bytefeld.Epc.csproj", "{573CCD81-D8AF-4AA6-971C-241C1A00BA46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bytefeld.Epc", "Bytefeld.Epc\Bytefeld.Epc.csproj", "{573CCD81-D8AF-4AA6-971C-241C1A00BA46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bytefeld.Epc.Tests", "D:\Projects\bytefeld\epc.net\Bytefeld.Epc.Tests\Bytefeld.Epc.Tests.csproj", "{5547EB4F-74D5-4F79-9E65-6A5BAED4E5CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bytefeld.Epc.Tests", "Bytefeld.Epc.Tests\Bytefeld.Epc.Tests.csproj", "{5547EB4F-74D5-4F79-9E65-6A5BAED4E5CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
