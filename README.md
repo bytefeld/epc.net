@@ -1,11 +1,17 @@
-# epc.net
+# Bytefeld EPC
 
-`EPC.NET` is an EPC [Electronic Product Code](https://en.wikipedia.org/wiki/Electronic_Product_Code) Encoder/Decoder library written in C#.
+`Bytefeld EPC` is an EPC [Electronic Product Code](https://en.wikipedia.org/wiki/Electronic_Product_Code) Encoder/Decoder library written in C#, with support for .NET Framework 3.5 and .NET Standard 1.4
 
 It aims to support the latest [EPC TAG Data Standard](http://www.gs1.org/gsmp/kc/epcglobal/tds/) with focus on id and tag uri handling.
 
 
-## Examples
+## Install
+
+```Powershell
+Install-Package bytefeld.epc -Version 0.5.0-beta2
+```
+
+## Usage
 
 Use the EpcTag class as an convenient entry point to the library.
 
