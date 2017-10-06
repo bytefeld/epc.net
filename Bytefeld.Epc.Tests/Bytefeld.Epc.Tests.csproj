@@ -56,14 +56,14 @@
     <Compile Include="Sgtin96Tests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bytefeld.Epc\Bytefeld.Epc.csproj">
-      <Project>{573ccd81-d8af-4aa6-971c-241c1a00ba46}</Project>
-      <Name>Bytefeld.Epc</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bytefeld.Epc\Bytefeld.Epc.csproj">
+      <Project>{f752ecd6-5f9e-486f-895b-28c9b46c6393}</Project>
+      <Name>Bytefeld.Epc</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
