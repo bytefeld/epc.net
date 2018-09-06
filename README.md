@@ -39,7 +39,7 @@ string customerPrefix = tag.CustomerPrefix;
 
 ## Supported Tags
 
-The following tag are currently supported by Tonic.EPC:
+The following tags are currently supported by Bytefeld EPC:
 
 * SGTIN-96
 * SGTIN-198
