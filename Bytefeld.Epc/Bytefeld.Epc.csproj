@@ -18,7 +18,15 @@
     <RootNamespace>Bytefeld.Epc</RootNamespace>
     <PackageReleaseNotes>First public release. Not feature complete, but should usable. Feedback welcome.</PackageReleaseNotes>
     <Product>Bytefeld EPC Library</Product>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.4|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;</DefineConstants>
